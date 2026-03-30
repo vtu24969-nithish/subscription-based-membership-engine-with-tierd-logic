@@ -1,0 +1,88 @@
+<?php
+session_start();
+
+// Database Connection
+$conn = new mysqli("localhost", "root", "", "membership_db");
+
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// REGISTER
+if (isset($_POST['register'])) {
+    $name = $_POST['name'];
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+
+    $sql = "INSERT INTO users (name, email, password, plan)
+            VALUES ('$name', '$email', '$password', 'Basic')";
+
+    if ($conn->query($sql) === TRUE) {
+        echo "Registration Successful <a href='index.html'>Go to Login</a>";
+    } else {
+        echo "Error: " . $conn->error;
+    }
+}
+
+// LOGIN
+if (isset($_POST['login'])) {
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+
+    $sql = "SELECT * FROM users WHERE email='$email' AND password='$password'";
+    $result = $conn->query($sql);
+
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $_SESSION['user'] = $row['name'];
+        $_SESSION['email'] = $row['email'];
+        $_SESSION['plan'] = $row['plan'];
+
+        header("Location: backend.php");
+    } else {
+        echo "Invalid Login";
+    }
+}
+
+// SUBSCRIBE PLAN
+if (isset($_GET['plan'])) {
+    $plan = $_GET['plan'];
+    $email = $_SESSION['email'];
+
+    $expiry = date('Y-m-d', strtotime("+30 days"));
+
+    $sql = "UPDATE users SET plan='$plan', expiry_date='$expiry' WHERE email='$email'";
+    $conn->query($sql);
+
+    $_SESSION['plan'] = $plan;
+    echo "Plan Updated to " . $plan . "<br>";
+}
+
+// LOGOUT
+if (isset($_GET['logout'])) {
+    session_destroy();
+    header("Location: index.html");
+}
+
+// DASHBOARD
+if (isset($_SESSION['user'])) {
+    echo "<h2>Welcome " . $_SESSION['user'] . "</h2>";
+    echo "<p>Your Plan: " . $_SESSION['plan'] . "</p>";
+
+    echo "<h3>Content Access:</h3>";
+
+    if ($_SESSION['plan'] == "Basic") {
+        echo "Basic Content Only";
+    } elseif ($_SESSION['plan'] == "Premium") {
+        echo "Basic + Premium Content";
+    } elseif ($_SESSION['plan'] == "Pro") {
+        echo "All Content Access";
+    }
+
+    echo "<br><br>";
+    echo "<a href='backend.php?plan=Basic'>Subscribe Basic</a><br>";
+    echo "<a href='backend.php?plan=Premium'>Subscribe Premium</a><br>";
+    echo "<a href='backend.php?plan=Pro'>Subscribe Pro</a><br><br>";
+    echo "<a href='backend.php?logout=true'>Logout</a>";
+}
+?>

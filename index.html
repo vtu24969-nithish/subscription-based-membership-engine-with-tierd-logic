@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Subscription-Based Membership Engine</title>
+    <style>
+        body {
+            font-family: Arial;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            background-color: #333;
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+
+        nav {
+            background-color: #555;
+            padding: 10px;
+            text-align: center;
+        }
+
+        nav a {
+            color: white;
+            margin: 15px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        nav a:hover {
+            color: yellow;
+        }
+
+        .container {
+            width: 80%;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            margin-top: 20px;
+            box-shadow: 0px 0px 10px gray;
+        }
+
+        input[type="text"], input[type="email"], input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+        }
+
+        button {
+            background-color: green;
+            color: white;
+            padding: 10px;
+            border: none;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: darkgreen;
+        }
+
+        .plan {
+            border: 1px solid gray;
+            padding: 15px;
+            margin: 10px;
+            text-align: center;
+            display: inline-block;
+            width: 30%;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+
+    <script>
+        function showPage(pageId) {
+            var pages = document.getElementsByClassName("page");
+            for (var i = 0; i < pages.length; i++) {
+                pages[i].classList.add("hidden");
+            }
+            document.getElementById(pageId).classList.remove("hidden");
+        }
+    </script>
+</head>
+<body>
+
+<header>
+    <h1>Subscription-Based Membership Engine</h1>
+</header>
+
+<nav>
+    <a href="#" onclick="showPage('home')">Home</a>
+    <a href="#" onclick="showPage('register')">Register</a>
+    <a href="#" onclick="showPage('login')">Login</a>
+    <a href="#" onclick="showPage('plans')">Plans</a>
+    <a href="#" onclick="showPage('dashboard')">Dashboard</a>
+</nav>
+
+<!-- Home Page -->
+<div id="home" class="container page">
+    <h2>Welcome</h2>
+    <p>This website provides subscription-based access with tiered membership plans.</p>
+</div>
+
+<!-- Register Page -->
+<div id="register" class="container page hidden">
+    <h2>User Registration</h2>
+    <form>
+        <label>Name:</label>
+        <input type="text" placeholder="Enter Name" required>
+
+        <label>Email:</label>
+        <input type="email" placeholder="Enter Email" required>
+
+        <label>Password:</label>
+        <input type="password" placeholder="Enter Password" required>
+
+        <button type="submit">Register</button>
+    </form>
+</div>
+
+<!-- Login Page -->
+<div id="login" class="container page hidden">
+    <h2>User Login</h2>
+    <form>
+        <label>Email:</label>
+        <input type="email" placeholder="Enter Email" required>
+
+        <label>Password:</label>
+        <input type="password" placeholder="Enter Password" required>
+
+        <button type="submit">Login</button>
+    </form>
+</div>
+
+<!-- Plans Page -->
+<div id="plans" class="container page hidden">
+    <h2>Membership Plans</h2>
+
+    <div class="plan">
+        <h3>Basic</h3>
+        <p>₹100 / month</p>
+        <p>Basic Content Access</p>
+        <button>Subscribe</button>
+    </div>
+
+    <div class="plan">
+        <h3>Premium</h3>
+        <p>₹300 / month</p>
+        <p>Premium Content Access</p>
+        <button>Subscribe</button>
+    </div>
+
+    <div class="plan">
+        <h3>Pro</h3>
+        <p>₹500 / month</p>
+        <p>All Content Access</p>
+        <button>Subscribe</button>
+    </div>
+</div>
+
+<!-- Dashboard Page -->
+<div id="dashboard" class="container page hidden">
+    <h2>User Dashboard</h2>
+    <p>Welcome User</p>
+    <p>Your Membership Plan: Premium</p>
+
+    <h3>Available Content</h3>
+    <ul>
+        <li>Basic Content</li>
+        <li>Premium Content</li>
+    </ul>
+</div>
+
+</body>
+</html>
